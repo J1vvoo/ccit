@@ -73,4 +73,14 @@ codevuln_setting() {
     echo -e "\033[32m[+] SonarQube Install & Setting complete\033[0m $@"
 }
 
+python3 <<END
+from sonarqube import SonarQubeClient
+
+url = "http://localhost:9000"
+username = "admin"
+password = "admin"
+
+sonar = SonarQubeClient(sonarqube_url=url, username=username, password=password)
+END
+
 codevuln_setting
