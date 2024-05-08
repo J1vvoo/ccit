@@ -1,5 +1,9 @@
 #!/bin/bash
 
+current_directory=$(pwd)
+echo "Current directory : $current_directory"
+sleep 3
+
 # codevuln setting
 codevuln_setting() {
     clear
@@ -84,3 +88,14 @@ sonar = SonarQubeClient(sonarqube_url=url, username=username, password=password)
 END
 
 codevuln_setting
+
+sleep 2
+target_directory="/home/codevuln"
+files=("setting.sh" "query-ready.sh" "query-action.py" "sonarqube.sh")
+
+for file in "${files[@]}"; do
+    cp "$current_directory/$file" "$target_directory"
+    echo "$file moved to $target_directory"
+done
+
+cd /home/codevuln
