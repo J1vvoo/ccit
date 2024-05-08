@@ -129,15 +129,6 @@ END
 
     echo -e "\033[32m[+] SonarQube Install & Setting complete\033[0m $@"
 
-    sleep 2
-    target_directory="/home/codevuln"
-    files=("codevuln-setting.sh" "query-setting.sh" "codeql.sh" "semgrep.sh" "sonarqube.sh")
-
-    for file in "${files[@]}"; do
-        cp "$current_directory/$file" "$target_directory"
-        echo "$file moved to $target_directory"
-    done
-
     echo -e "\033[32m[README] Please copy the URL and login from the browser\033[0m $@"
     semgrep login
 }
@@ -146,3 +137,12 @@ clear
 banner
 sleep 2
 codevuln_setting
+
+sleep 2
+target_directory="/home/codevuln"
+files=("codevuln-setting.sh" "query-setting.sh" "codeql.sh" "semgrep.sh" "sonarqube.sh")
+
+for file in "${files[@]}"; do
+    cp "$current_directory/$file" "$target_directory"
+    echo "$file moved to $target_directory"
+done
