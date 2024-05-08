@@ -9,7 +9,10 @@ banner() {
     echo " \\ \\  \\    \\ \\  \\\\\\  \\ \\  \\ \\\\ \\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\\\\\  \\ \\  \\    \\ \\  \\\\ \\  \\  "
     echo "  \\ \\  \\____\\ \\  \\\\\\  \\ \\  \\_\\\\ \\ \\  \\_|\ \\ \\    / /   \\ \\  \\\\\\  \\ \\  \\____\\ \\  \\\\ \\  \\ "
     echo "   \\ \\_______\\ \\_______\\ \\_______\\ \\_______\\ \\__/ /     \\ \\_______\\ \\_______\\ \\__\\\\ \\__\\"
-    echo "    \\|_______|\\|_______|\\|_______|\\|_______|\\|__|/       \\|_______|\\|_______|\\|__| \\|__|"                                                                                                                                                                                                                                                           
+    echo "    \\|_______|\\|_______|\\|_______|\\|_______|\\|__|/       \\|_______|\\|_______|\\|__| \\|__|"
+
+
+
 }
 
 # codevuln setting
@@ -50,11 +53,13 @@ codevuln_setting() {
     mkdir /home/codevuln/target-repo/
 
     chmod +x ./codeql_integrate_csv.py && mv ./codeql_integrate_csv.py /home/codevuln/codeql/
-    chmod +x ./semgrep_integrate_csv.py && mv ./semgrep_integrate_csv.py /home/codevuln/semgrep/ 
+    chmod +x ./semgrep_integrate_csv.py && mv ./semgrep_integrate_csv.py /home/codevuln/semgrep/
     chmod +x ./semgrep_json_csv.py && mv ./semgrep_json_csv.py /home/codevuln/semgrep
     chmod +x ./semgrep_column_delete.py && mv ./semgrep_column_delete.py /home/codevuln/semgrep
     chmod +x ./semgrep_column_order.py && mv ./semgrep_column_order.py /home/codevuln/semgrep
-    
+    chmod +x ./sonarqube-query-action.py && mv ./sonarqube-query-action.py /home/codevuln/sonarqube
+
+
     echo -e "\033[32m[+] codeQL Install & Setting\033[0m $@"
     cd /home/codevuln/codeql
     apt install git -y
@@ -111,7 +116,27 @@ codevuln_setting() {
     else
         echo "SonarScanner is already installed."
     fi
+
+python3 <<END
+from sonarqube import SonarQubeClient
+
+url = "http://localhost:9000"
+username = "admin"
+password = "admin"
+
+sonar = SonarQubeClient(sonarqube_url=url, username=username, password=password)
+END
+
     echo -e "\033[32m[+] SonarQube Install & Setting complete\033[0m $@"
+
+    sleep 2
+    target_directory="/home/codevuln"
+    files=("codevuln-setting.sh" "query-setting.sh" "codeql.sh" "semgrep.sh" "sonarqube.sh")
+
+    for file in "${files[@]}"; do
+        cp "$current_directory/$file" "$target_directory"
+        echo "$file moved to $target_directory"
+    done
 
     echo -e "\033[32m[README] Please copy the URL and login from the browser\033[0m $@"
     semgrep login
