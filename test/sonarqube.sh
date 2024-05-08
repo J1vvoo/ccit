@@ -56,10 +56,10 @@ try:
         issues.sort(key=lambda x: severity_order.index(x.get('severity')))
 
         # CSV 파일 경로 및 이름 설정
-        csv_file_path = f"/home/codevuln/target-repo/{directory_name}/sonarqube/sonarqube.csv"
+        csv_file_path = f"/home/codevuln/target-repo/{directory_name}/scan_result/sonarqube.csv"
 
         # JSON 파일 경로 및 이름 설정
-        json_file_path = f"/home/codevuln/target-repo/{directory_name}/sonarqube/sonarqube.json"
+        json_file_path = f"/home/codevuln/target-repo/{directory_name}/scan_result/sonarqube.json"
 
         # 현재 시간과 날짜를 가져오기
         current_datetime = datetime.now()
