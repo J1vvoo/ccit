@@ -13,4 +13,14 @@ git clone --depth=1 "$repository_url" "/home/codevuln/target-repo/$directory_nam
 
 mkdir "/home/codevuln/target-repo/$directory_name/sonarqube"
 
+python3 <<END
+from sonarqube import SonarQubeClient
+
+url = "http://localhost:9000"
+username = "admin"
+password = "admin"
+
+sonar = SonarQubeClient(sonarqube_url=url, username=username, password=password)
+END
+
 python3 query-action.py $directory_name $clone_directory_name
